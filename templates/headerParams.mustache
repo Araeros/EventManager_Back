@@ -1,0 +1,1 @@
+{{#isHeaderParam}}@Parameter(description = "{{{description}}}"{{#required}}, required=true{{/required}}){{#useBeanValidation}}{{>beanValidationHeaderParams}}{{/useBeanValidation}}@HeaderParam("{{baseName}}") {{{dataType}}} {{paramName}}{{/isHeaderParam}}

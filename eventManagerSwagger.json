@@ -1,0 +1,414 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "description": "TP Technologie Web",
+    "version": "1.0.0",
+    "title": "EventManager Swagger",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags": [
+    {
+      "name": "TimeSeries",
+      "description": "Everything about your Series"
+    },
+    {
+      "name": "Event",
+      "description": "Access to event management"
+    }
+  ],
+  "paths": {
+    "/series": {
+      "post": {
+        "tags": [
+          "TimeSeries"
+        ],
+        "summary": "Create a serie for an user",
+        "description": "",
+        "operationId": "addSeries",
+        "responses": {
+          "200": {
+            "description": "Successful creation"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "parameters": [
+          {
+            "name": "series",
+            "in": "query",
+            "description": "Series add to the user",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/TimeSeries"
+            }
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "TimeSeries"
+        ],
+        "summary": "Update an existing Series",
+        "description": "",
+        "operationId": "updateSeries",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "body",
+            "description": "Series need to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/TimeSeries"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucessful update"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Series not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/series/{seriesId}": {
+      "delete": {
+        "tags": [
+          "TimeSeries"
+        ],
+        "summary": "Deletes a Series",
+        "description": "",
+        "operationId": "deleteSeries",
+        "parameters": [
+          {
+            "name": "seriesId",
+            "in": "path",
+            "description": "Series id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Series not found"
+          }
+        }
+      }
+    },
+    "/event": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Updated event",
+        "operationId": "updateEvent",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "body",
+            "description": "Updated Event object",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Event"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid event supplied"
+          },
+          "404": {
+            "description": "Event not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Add a new event for a user",
+        "description": "",
+        "operationId": "addEvent",
+        "parameters": [
+          {
+            "name": "seriesId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Series where to add the event"
+          },
+          {
+            "name": "eventId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Event"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful event creation"
+          },
+          "404": {
+            "description": "Series not found"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/event/{eventId}": {
+      "delete": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Deletes an event",
+        "description": "",
+        "operationId": "deleteEvent",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Event not found"
+          }
+        }
+      }
+    },
+    "/tag": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Updated event for adding tag",
+        "operationId": "addTag",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "body",
+            "description": "Tag object",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          {
+            "name": "eventId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Event where to add the tag"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid tag supplied"
+          },
+          "404": {
+            "description": "Event not found"
+          }
+        }
+      }
+    },
+    "/description": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Updated event for adding description",
+        "operationId": "addDescription",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "body",
+            "description": "Description",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "eventId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Event where to add the description"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid description supplied"
+          },
+          "404": {
+            "description": "Event not found"
+          }
+        }
+      }
+    },
+    "/event/findByTags/{tags}": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Finds Events by tags",
+        "operationId": "findEventsByTags",
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "path",
+            "description": "Tags to filter by",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Tag"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Event"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid tag value(s)"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TimeSeries": {
+        "type": "object",
+        "properties": {
+          "seriesId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "eventsList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            }
+          }
+        },
+        "xml": {
+          "name": "TimeSeries"
+        }
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "string"
+          },
+          "tagsList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "comment": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Event"
+        }
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "tagId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "seriesList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TimeSeries"
+            }
+          }
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

@@ -1,0 +1,1 @@
+{{#isBodyParam}}@Parameter(description = "{{{description}}}"{{#required}}, required=true{{/required}}){{#useBeanValidation}}{{#required}} @NotNull{{/required}} @Valid{{/useBeanValidation}} {{{dataType}}} {{paramName}}{{/isBodyParam}}

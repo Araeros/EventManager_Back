@@ -1,0 +1,348 @@
+openapi: 3.0.3
+info:
+  description: TP Technologie Web
+  version: 1.0.0
+  title: EventManager Swagger
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: TimeSeries
+    description: Everything about your Series
+  - name: Event
+    description: Access to event management
+  - name: User
+    description : User Management
+  - name : Tool
+    description : Available Services
+paths:
+  /tool/id/series:
+    get:
+      tags:
+        - Tool
+      summary: Get Next Id Available
+      operationId: getNextSeriesId
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type : string
+        '400':
+          description: Bad Request
+  /tool/id/event:
+    get:
+      tags:
+        - Tool
+      summary: Get Next Id Available
+      operationId: getNextEventId
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type : string
+        '400':
+          description: Bad Request
+  /user:
+    post:
+      tags:
+        - User
+      summary: Create a new User
+      description: Create an User
+      operationId: createUser
+      requestBody:
+        description: User to create
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '201':
+          description: Successful creation
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - User
+      summary: Delete an User
+      description: Delete an User
+      operationId: deleteUser
+      parameters:
+        - name: userId
+          in: path
+          description: Users to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Deletion
+        '405':
+          description: Invalid input
+  /series/{userId}:
+    get:
+      tags:
+        - TimeSeries
+      summary: Get All Series of an User
+      description: GetAll
+      operationId: getSeries
+      parameters:
+        - name: userId
+          in: path
+          description: Users to get the Series
+          required: true
+          schema:
+            type : string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeSeries'
+        '400':
+          description: Invalid User ID
+    post:
+      tags:
+        - TimeSeries
+      summary: Create a serie for an user
+      description: ''
+      operationId: addSeries
+      requestBody:
+        description: Series to Add at the User
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimeSeries'
+      responses:
+        '201':
+          description: Successful creation
+        '405':
+          description: Invalid input
+      parameters:
+        - name: userId
+          in: path
+          description: User ID 
+          required: true
+          schema:
+            type: string
+  /series:
+    put:
+      tags:
+        - TimeSeries
+      summary: Update an existing Series
+      description: ''
+      operationId: updateSeries
+      requestBody:
+        description: Series to Update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimeSeries'
+      responses:
+        '200':
+          description: Sucessful update
+        '404':
+          description: Series not found
+        '405':
+          description: Invalid Series Given
+  /series/{seriesId}:
+    delete:
+      tags:
+        - TimeSeries
+      summary: Deletes a Series
+      description: ''
+      operationId: deleteSeries
+      parameters:
+        - name: seriesId
+          in: path
+          description: Series id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Series not found
+  /event/{seriesId}:
+    get:
+      tags:
+        - Event
+      summary: Get All Events of a Series
+      description: GetAll
+      operationId: getEvents
+      parameters:
+        - name: seriesId
+          in: path
+          description: Series to get the Events
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid ID supplied
+    post:
+      tags:
+        - Event
+      summary: Add a new event in a series
+      description: ''
+      operationId: addEvent
+      requestBody:
+        description: Event to Add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      parameters:
+        - name: seriesId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Series where to add the event
+      responses:
+        '200':
+          description: Successful event creation
+        '404':
+          description: Series not found
+        '405':
+          description: Invalid input
+  /event:
+    put:
+      tags:
+        - Event
+      summary: Updated event
+      operationId: updateEvent
+      requestBody:
+        description: Event to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '400':
+          description: Invalid event supplied
+        '404':
+          description: Event not found
+  /event/{eventId}:
+    delete:
+      tags:
+        - Event
+      summary: Deletes an event
+      description: ''
+      operationId: deleteEvent
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Event not found
+  /event/findByLabels/{labelsName}:
+    get:
+      tags:
+        - Event
+      summary: Finds Events by labels
+      operationId: findEventsByLabels
+      parameters:
+        - name: labelsName
+          in: path
+          description: Labels to filter by
+          required: true
+          schema:
+            type: array
+            items:
+              type : string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid label value(s)
+components:
+  schemas:
+    TimeSeries:
+      type: object
+      properties:
+        seriesId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        eventsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+      xml:
+        name: TimeSeries
+    Event:
+      type: object
+      properties:
+        eventId:
+          type: string
+        date:
+          type: string
+          format: date-time
+        value:
+          type: string
+        labelsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        comment:
+          type: string
+      xml:
+        name: Event
+    Label:
+      type: object
+      properties:
+        name:
+          type: string
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        seriesList:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeries'
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io

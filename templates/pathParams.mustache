@@ -1,0 +1,1 @@
+{{#isPathParam}}@Parameter(description = "{{{description}}}"{{#required}}, required=true{{/required}}){{#useBeanValidation}}{{>beanValidationPathParams}}{{/useBeanValidation}} @PathParam("{{baseName}}") {{{dataType}}} {{paramName}}{{/isPathParam}}
